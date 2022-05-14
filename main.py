@@ -32,6 +32,7 @@ def shape(x, y, shape_color, side_len, fill, side_angle, side_num, pen_size, tur
     if fill == 'y':
         carl.begin_fill()
         if side_num == 0:
+            carl.goto(x - side_len, y - side_len)
             carl.circle(side_len)
         elif side_num == 1:
             carl.left(int(turtle.numinput(f'settings for user generated shape {count2} of {num_shapes}',

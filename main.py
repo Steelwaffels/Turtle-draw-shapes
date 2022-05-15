@@ -1,14 +1,13 @@
-# Brian Routt + Manrit Kaur
+# Brian Routt
 # 5/12/2022
 # draw shapes using turtle
 
 # importing needed modules
-
 import turtle
 from turtle import *
 
-# function for defining how the canvas will look
 
+# function for defining how the canvas will look
 def window(x_len, y_len, canvas_title, canvas_color):
     wn = turtle.Screen()
     wn.bgcolor(canvas_color)
@@ -16,212 +15,162 @@ def window(x_len, y_len, canvas_title, canvas_color):
     wn.title(canvas_title)
 
 
-# function for drawing the shapes with the correct location, color, and fill settings
-
-def shape(x, y, shape_color, side_len, fill, side_angle, side_num, pen_size, turtle_vis, turtle_speed):
+# function for defining carl
+def carl(pen_size, turtle_speed, turtle_vis):
     carl = turtle.Turtle()
     carl.pensize(pen_size)
     carl.speed(turtle_speed)
     carl.shape("turtle")
     if turtle_vis == 'n':
         carl.ht()
+
+
+# function to draw the right shape in the right spot
+def draw_shape(x, y, side_len, side_angle, side_num):
+    if side_num == 0:
+        carl.goto(x - side_len, y - side_len)
+        carl.circle(side_len)
+
+    elif side_num == 1:
+        carl.left(int(turtle.numinput(f'settings for user generated shape {count2} of {num_shapes}',
+                                      'Direction fo r carl to draw the line? '
+                                      '(default is right,'
+                                      ' input positive angle in degrees to turn carl that many degrees)')))
+        carl.forward(side_len)
+
+    else:
+        for i in range(side_num):
+            carl.forward(side_len)
+            carl.left(side_angle)
+
+
+# function for establishing carl's settings
+
+def shape(x, y, shape_color, side_len, fill, side_angle, side_num, pen_size, turtle_vis, turtle_speed):
+    carl(pen_size, turtle_speed, turtle_vis)
+
     carl.penup()
     carl.color(shape_color)
     carl.goto(x, y)
     carl.pendown()
+
     if fill == 'y':
         carl.begin_fill()
-        if side_num == 0:
-            carl.goto(x - side_len, y - side_len)
-            carl.circle(side_len)
-        elif side_num == 1:
-            carl.left(int(turtle.numinput(f'settings for user generated shape {count2} of {num_shapes}',
-                                          'Direction fo r carl to draw the line? '
-                                          '(default is right,'
-                                          ' input positive angle in degrees to turn carl that many degrees)')))
-            carl.forward(side_len)
-        else:
-            for i in range(side_num):
-                carl.forward(side_len)
-                carl.left(side_angle)
+        draw_shape(x, y, side_len, side_angle, side_num)
         carl.end_fill()
     else:
-        if side_num == 0:
-            carl.goto(x - side_len, y - side_len)
-            carl.circle(side_len)
-        elif side_num == 1:
-            carl.left(int(turtle.numinput(f'settings for user generated shape {count2} of {num_shapes}',
-                                          'Direction for carl to draw the line? '
-                                          '(default is right,'
-                                          ' input positive angle in degrees to turn carl that many degrees)')))
-            carl.forward(side_len)
-        else:
-            for i in range(side_num):
-                carl.forward(side_len)
-                carl.left(side_angle)
+        draw_shape(x, y, side_len, side_angle, side_num)
     carl.ht()
 
 
-# function for doing what the assignment requires
-
-def assignment():
-    # setting up the canvas
-
-    window(400, 400, 'Shapes', 'indigo')
-
-    # drawing a yellow filled hexagon with side lengths of 40
-
-    shape(80, 80, 'yellow', 40, 'y', 60, 6, 1, 'n', 1)
-
-    # drawing a light green filled octagon with side lengths of 30
-
-    shape(-20, 20, 'lightgreen', 30, 'y', 45, 8, 1, 'n', 1)
-
-    # drawing a pink triangle with side lengths of 70
-
-    shape(80, -120, 'pink', 70, 'y', 120, 3, 1, 'n', 1)
-
-    # ending session
-
-    turtle.exitonclick()
+# requesting and executing user-generated shapes
 
 
-# function for drawing user-generated shapes
+# user inputs number of shapes
 
-def user_generated_shape():
-    # user inputs number of shapes
+num_shapes = int(input('number of user-generated shapes?\n'))
 
-    num_shapes = int(input('number of user-generated shapes?\n'))
+# user sets canvas settings
 
-    # user sets canvas settings
+print('settings for canvas:')
+window(int(input('width of canvas? (pixels)\n')),
+       int(input('height of canvas? (pixels)\n')),
+       str(input('name of canvas?\n')),
+       str(input('background color? '
+                 '(name of color no spaces, see https://i.stack.imgur.com/nCk6u.jpg for list of valid colors)\n')))
 
-    print('settings for canvas:')
-    window(int(input('width of canvas? (pixels)\n')),
-           int(input('height of canvas? (pixels)\n')),
-           str(input('name of canvas?\n')),
-           str(input('background color? '
-                     '(name of color no spaces, see https://i.stack.imgur.com/nCk6u.jpg for list of valid colors)\n')))
+# Console prompts user to switch to the turtle window, and input the settings for carl
 
-    # Console prompts user to switch to the turtle window, and input the settings for carl
+print('switch to turtle window')
+pen_size = int(turtle.numinput('settings for carl',
+                               'pen size? (positive integer)\n'))
+turtle_vis = str(turtle.textinput('settings for carl',
+                                  'see carl while he works? (y/n)\n'))
+turtle_speed = int(turtle.numinput('settings for carl',
+                                   'how fast should carl work? (positive integer)\n'))
 
-    print('switch to turtle window')
-    pen_size = int(turtle.numinput('settings for carl',
-                                   'pen size? (positive integer)\n'))
-    turtle_vis = str(turtle.textinput('settings for carl',
-                                      'see carl while he works? (y/n)\n'))
-    turtle_speed = int(turtle.numinput('settings for carl',
-                                       'how fast should carl work? (positive integer)\n'))
+# Establishing variables needed later
 
-    # Establishing variables needed later
+count2 = 1
+count3 = 1
+keep_size = ''
 
-    count2 = 1
-    count3 = 1
-    keep_size = ''
+# Drawing the shapes
 
-    # Drawing the shapes
 
-    for i in range(int(num_shapes)):
+for i in range(int(num_shapes)):
 
-        # checking user if they want to change their pen size, but only if it isn't the 1st shape drawn
-        # because user just set their pen size
+    # checking user if they want to change their pen size, but only if it isn't the 1st shape drawn
+    # because user just set their pen size
 
-        if count3 != 1:
-            keep_size = str(turtle.textinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                             'keep the same pensize? (y/n)\n'))
+    if count3 != 1:
+        keep_size = str(turtle.textinput(f'settings for user-generated shape {count2} of {num_shapes}',
+                                         'keep the same pensize? (y/n)\n'))
 
-        # while loop to only allow the user to draw a closed shape, a circle, or a line,
-        count = 1
-        while count == 1:
+    # while loop to only allow the user to draw a closed shape, a circle, or a line,
+    count = 1
+    while count == 1:
 
-            # acting on user choice to keep or change pen size
+        # acting on user choice to keep or change pen size
 
-            if keep_size == 'n':
-                pen_size = int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                               'pen size? (positive integer)\n'))
+        if keep_size == 'n':
+            pen_size = int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
+                                           'pen size? (positive integer)\n'))
 
-            # requesting number of sides
-            side_num = int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                           'number of sides? (must be between 3 and 210, or 1 to draw a straight line,'
-                                           ' 0 to draw a circle)\n'))
+        # requesting number of sides
+        side_num = int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
+                                       'number of sides? (must be a positive integer, 1 to draw a straight line,'
+                                       ' 0 to draw a circle)\n'))
 
-            if (3 > side_num or side_num > 210) and (side_num != 0 and side_num != 1):
-                turtle.textinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                 'num sides must be 1, 0, or between 3 and 210, please press enter to try again')
+        # setting up variables for prompts and side angle
 
-            # running shape function with circle related prompts
+        if side_num == 0:
+            shape_name = 'circle'
+            shape_len = 'length of circle radius'
+            shape_loc = '(center of circle)'
+            side_angle = 0
 
-            elif side_num == 0:
-                shape(int(turtle.numinput(f'settings for user-generated circle {count2} of {num_shapes}',
-                                          'x-coordinate for shape to start?(center of circle)\n')),
-                      int(turtle.numinput(f'settings for user-generated circle {count2} of {num_shapes}',
-                                          'y-coordinate for shape to start?(center of circle)\n')),
-                      str(turtle.textinput(f'settings for user-generated circle {count2} of {num_shapes}',
-                                           'color? '
-                                           '(name of color no spaces,'
-                                           ' see https://i.stack.imgur.com/nCk6u.jpg for list of valid colors)\n')),
-                      int(turtle.numinput(f'settings for user-generated circle {count2} of {num_shapes}',
-                                          'Circle radius? (pixels)\n')),
-                      str(turtle.textinput(f'settings for user-generated circle {count2} of {num_shapes}',
-                                           'fill? (y/n)\n')),
-                      0, side_num, pen_size, turtle_vis, turtle_speed)
+        elif shape_num == 1:
+            shape_name = 'line'
+            shape_len = 'length of line'
+            shape_loc = ''
+            side_angle = 0
 
-                # updating counters for while loops and conditional statements
+        else:
+            shape_name = 'shape'
+            shape_len = 'length of sides'
+            shape_loc = '(bottom left vertex of shape)'
+            side_angle = 360 / side_num
 
-                count = 0
-                count2 += 1
-                count3 += 1
+            # preventing inputs that will break the program
 
-            # running shape function with line related prompts
+        if side_num == 2 or side_num < 0:
+            turtle.textinput(f'settings for user-generated shape {count2} of {num_shapes}',
+                             'num sides must be a positive integer other than 2, 0 for circle '
+                             'please press enter to try again')
 
-            elif side_num == 1:
-                shape(int(turtle.numinput(f'settings for user-generated line {count2} of {num_shapes}',
-                                          'x-coordinate for shape to start line?')),
-                      int(turtle.numinput(f'settings for user-generated line {count2} of {num_shapes}',
-                                          'y-coordinate for shape to start line?')),
-                      str(turtle.textinput(f'settings for user-generated line {count2} of {num_shapes}',
-                                           'color? '
-                                           '(name of color no spaces,'
-                                           ' see https://i.stack.imgur.com/nCk6u.jpg for list of valid colors)\n')),
-                      int(turtle.numinput(f'settings for user-generated line {count2} of {num_shapes}',
-                                          'length of line? (pixels)\n')),
-                      str(turtle.textinput(f'settings for user-generated line {count2} of {num_shapes}',
-                                           'fill? (y/n)\n')),
-                      0, side_num, pen_size, turtle_vis, turtle_speed)
+            # running shape function with correct prompts
 
-                # updating counters for while loops and conditional statements
+        else:
+            shape(int(turtle.numinput(f'settings for user-generated {shape_name} {count2} of {num_shapes}',
+                                      f'x-coordinate for {shape_name} to start? {shape_loc}\n')),
+                  int(turtle.numinput(f'settings for user-generated {shape_name} {count2} of {num_shapes}',
+                                      f'y-coordinate for {shape_name} to start? {shape_loc}\n')),
+                  str(turtle.textinput(f'settings for user-generated {shape_name} {count2} of {num_shapes}',
+                                       'color? '
+                                       '(name of color no spaces,'
+                                       ' see https://i.stack.imgur.com/nCk6u.jpg for list of valid colors)\n')),
+                  int(turtle.numinput(f'settings for user-generated {shape_name} {count2} of {num_shapes}',
+                                      f'{shape_len}? (pixels)\n')),
+                  str(turtle.textinput(f'settings for user-generated {shape_name} {count2} of {num_shapes}',
+                                       'fill? (y/n)\n')), side_angle, side_num, pen_size, turtle_vis, turtle_speed)
 
-                count = 0
-                count2 += 1
-                count3 += 1
+            # updating counters for while loops and conditional statements
 
-            # running shapes with general prompts
+            count = 0
+            count2 += 1
+            count3 += 1
 
-            else:
-                shape(int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                          'x-coordinate for shape to start?(bottom left vertex of shape)')),
-                      int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                          'y-coordinate for shape to start?(bottom left vertex of shape)')),
-                      str(turtle.textinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                           'color? '
-                                           '(name of color no spaces,'
-                                           ' see https://i.stack.imgur.com/nCk6u.jpg for list of valid colors)\n')),
-                      int(turtle.numinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                          'length of sides? (pixels)\n')),
-                      str(turtle.textinput(f'settings for user-generated shape {count2} of {num_shapes}',
-                                           'fill? (y/n)\n')),
-                      360 / side_num, side_num, pen_size, turtle_vis, turtle_speed)
+# ending session
 
-                # updating counters for while loops and conditional statements
-
-                count = 0
-                count2 += 1
-                count3 += 1
-
-    # prompting user to return to program in pycharm to end the program and ending program
-
-    turtle.textinput('System Prompt', 'return to pycharm to end program, press enter to clear prompt')
-    turtle.exitonclick()
-    finished = str(input('Press y followed by enter when you are ready to end the program\n'))
-    if finished == 'y':
-        quit()
-
+turtle.exitonclick()

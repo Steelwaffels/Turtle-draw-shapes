@@ -27,6 +27,19 @@ def carl(pen_size, turtle_speed, turtle_vis):
 
 # function to draw the right shape in the right spot
 def draw_shape(x, y, side_len, side_angle, side_num):
+    carl = turtle.Turtle()
+    carl.pensize(pen_size)
+    carl.speed(turtle_speed)
+    carl.shape("turtle")
+
+    carl.penup()
+    carl.color(shape_color)
+    carl.goto(x, y)
+    carl.pendown()
+
+    if turtle_vis == 'n':
+        carl.ht()
+
     if side_num == 0:
         carl.goto(x - side_len, y - side_len)
         carl.circle(side_len)
@@ -46,8 +59,12 @@ def draw_shape(x, y, side_len, side_angle, side_num):
 
 # function for establishing carl's settings
 def shape(x, y, side_len, fill, side_angle, side_num, pen_size, turtle_speed, turtle_vis, shape_color, canvas_color):
-    carl(pen_size, turtle_speed, turtle_vis)
-
+    carl = turtle.Turtle()
+    carl.pensize(pen_size)
+    carl.speed(turtle_speed)
+    carl.shape("turtle")
+    if turtle_vis == 'n':
+        carl.ht()
     count4 = 1
     while count4 == 1:
         if canvas_color == shape_color:
@@ -63,11 +80,6 @@ def shape(x, y, side_len, fill, side_angle, side_num, pen_size, turtle_speed, tu
                 count4 = 0
         else:
             count4 = 0
-
-    carl.penup()
-    carl.color(shape_color)
-    carl.goto(x, y)
-    carl.pendown()
 
     if fill == 'y':
         carl.begin_fill()
@@ -136,7 +148,7 @@ for i in range(int(num_shapes)):
             shape_loc = '(center of circle)'
             side_angle = 0
 
-        elif shape_num == 1:
+        elif side_num == 1:
             shape_name = 'line'
             shape_len = 'length of line'
             shape_loc = ''
